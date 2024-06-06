@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>Add Ride</h2>
+
+<mat-dialog-content *ngIf="!isLoading" class="mat-typography">
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Start Address</mat-label>
+      <input matInput formControlName="startAddress" />
+      <mat-error *ngIf="form.get('startAddress')?.invalid">This field is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Destination Address</mat-label>
+      <input matInput formControlName="destinationAddress" />
+      <mat-error *ngIf="form.get('destinationAddress')?.invalid">This field is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Departure Date and Time</mat-label>
+      <input matInput type="datetime-local" formControlName="arrivalDateTime" />
+      <mat-error *ngIf="form.get('arrivalDateTime')?.invalid">This field is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Phone Number</mat-label>
+      <input matInput formControlName="passengerPhone" />
+      <mat-error *ngIf="form.get('passengerPhone')?.invalid">This field is required and must be a valid phone number</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Payment Type</mat-label>
+      <mat-select formControlName="paymentType">
+        <mat-option [value]="null">None</mat-option>
+        <mat-option *ngFor="let option of options" [value]="option.value">
+          {{ option.label }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('paymentType')?.invalid">This field is required</mat-error>
+    </mat-form-field>
+
+    <div formGroupName="card" *ngIf="form.get('paymentType')?.value === PaymentType.creditCard">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Card Number</mat-label>
+        <input matInput formControlName="number" />
+        <mat-error *ngIf="form.get('card.number')?.invalid">This field is required and must be a valid credit card number</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Expiry Date</mat-label>
+        <input matInput type="month" formControlName="expiresAt" />
+        <mat-error *ngIf="form.get('card.expiresAt')?.invalid">This field is required</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Price</mat-label>
+      <input matInput type="number" formControlName="price" readonly />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions *ngIf="!isLoading" align="end">
+  <button mat-button mat-dialog-close (click)="close()">Cancel</button>
+  <button mat-button [disabled]="form.invalid" (click)="submit()">Save</button>
+</mat-dialog-actions>
+
+<div *ngIf="isLoading"><mat-progress-spinner /></div>

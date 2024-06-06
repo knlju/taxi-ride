@@ -1,0 +1,23 @@
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.ride-card {
+  margin: 20px;
+  padding: 20px;
+}
+
+.ride-detail p {
+  margin: 0;
+  padding: 5px 0;
+}
+
+
+.toolbar-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
